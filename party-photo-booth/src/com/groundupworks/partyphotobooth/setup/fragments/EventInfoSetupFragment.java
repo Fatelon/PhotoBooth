@@ -124,6 +124,26 @@ public class EventInfoSetupFragment extends Fragment {
         mDateHidden = (CheckBox) view.findViewById(R.id.setup_event_info_date_hidden);
         mNext = (Button) view.findViewById(R.id.setup_event_info_button_next);
 
+        //////////////////////
+//        try {
+//
+//            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+//            emailIntent.setType("image/*");
+//            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"fatelon@yandex.ru"});
+//            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Hello...");
+//            // + "\n\r" + "\n\r" +
+//            // feed.get(Selectedposition).DETAIL_OBJECT.IMG_URL
+//            emailIntent.putExtra(Intent.EXTRA_TEXT, "Your text here");
+//            startActivity(Intent.createChooser(emailIntent, "Send email..."));
+//        } catch (Exception e) {
+//
+//        }
+
+
+
+
+        /////////////////////
+
         return view;
     }
 
@@ -185,6 +205,13 @@ public class EventInfoSetupFragment extends Fragment {
                 mDate.setEnabled(!isChecked);
             }
         });
+
+//        mUseMail.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//            }
+//        });
 
         mNext.setOnClickListener(new OnClickListener() {
             @Override

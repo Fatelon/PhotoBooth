@@ -18,9 +18,11 @@ package com.groundupworks.partyphotobooth.controllers;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.SparseArray;
@@ -333,6 +335,29 @@ public class PhotoStripController extends BaseController {
                 boolean isSuccessful = ImageHelper.writeJpeg(photoStrip, outputStream);
                 outputStream.flush();
                 outputStream.close();
+
+                ///// Attention!!!!! bydlokod
+
+//                try {
+//                    Uri u = null;
+//                    u = Uri.fromFile(file);
+//
+//                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+//                    emailIntent.setType("image/*");
+//                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"fatelon@yandex.ru"});
+//                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Hello...");
+//                    // + "\n\r" + "\n\r" +
+//                    // feed.get(Selectedposition).DETAIL_OBJECT.IMG_URL
+//                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Your tsxt here");
+//                    emailIntent.putExtra(Intent.EXTRA_STREAM, u);
+//                    mContext.startActivity(Intent.createChooser(emailIntent, "Send email..."));
+//                } catch (Exception e) {
+//                    reportError(-666);
+//                }
+
+
+                /////////////////////////
+
 
                 if (isSuccessful) {
                     String jpegPath = file.getPath();

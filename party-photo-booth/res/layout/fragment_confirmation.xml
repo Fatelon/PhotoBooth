@@ -22,4 +22,15 @@
         android:text="@string/confirmation__button_submit_text"
         android:visibility="gone" />
 
+    <Button
+        android:id="@+id/confirmation_button_submit_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/confirmation_button_submit"
+        android:layout_margin="@dimen/kiosk_spacing"
+        android:padding="@dimen/kiosk_spacing"
+        android:text="@string/confirmation__button_submit_email_text"
+        android:visibility="gone" />
+
 </RelativeLayout>

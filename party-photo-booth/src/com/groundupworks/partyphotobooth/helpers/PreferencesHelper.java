@@ -254,6 +254,46 @@ public class PreferencesHelper {
      */
     private static final String DEFAULT_EVENT_LOGO_URI_PREFERENCE = "";
 
+    /**
+     * Key for whether enabled posting mail messages.
+     */
+    private static final String KEY_MAIL_ENABLED = "keyMailEnabled";
+
+    /**
+     * Key default enabled posting mail messages.
+     */
+    private static final Boolean DEFAULT_KEY_MAIL_ENABLED = false;
+
+    /**
+     * The default preferences for the subject line of the mail settings fragment.
+     */
+    private static final String DEFAULT_SUBJECT_IN_MAIL_SETTINGS = "";
+
+    /**
+     * The default preferences for the message line of the mail settings fragment.
+     */
+    private static final String DEFAULT_MESSAGE_IN_MAIL_SETTINGS = "";
+
+    /**
+     * The default preferences for the email line of the mail settings fragment.
+     */
+    private static final String DEFAULT_EMAIL_IN_MAIL_SETTINGS = "";
+
+    /**
+     * Key for the subject line of the mail settings fragment.
+     */
+    private static final String KEY_SUBJECT_LINE_IN_MAIL_SETTINGS = "subjectLineMailSettings";
+
+    /**
+     * Key for the message line of the mail settings fragment.
+     */
+    private static final String KEY_MESSAGE_LINE_IN_MAIL_SETTINGS = "messageLineMailSettings";
+
+    /**
+     * Key for the message line of the mail settings fragment.
+     */
+    private static final String KEY_EMAIL_LINE_IN_MAIL_SETTINGS = "emailLineMailSettings";
+
     //
     // Public methods.
     //
@@ -448,5 +488,105 @@ public class PreferencesHelper {
     public boolean getNoticeEnabled(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         return preferences.getBoolean(KEY_NOTICE_ENABLED, false);
+    }
+
+    /**
+     * Stores whether enabled posting mail messages.
+     *
+     * @param context the {@link Context}.
+     * @param isEnabled true to enable; false otherwise.
+     */
+    public void storeMailEnabled(Context context, boolean isEnabled) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        preferences.edit().putBoolean(KEY_MAIL_ENABLED, isEnabled).apply();
+    }
+
+    /**
+     * Reads whether enabled posting mail messages.
+     *
+     * @param context the {@link Context}.
+     * @return true if enabled; false otherwise.
+     */
+    public boolean getMailEnabled(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        return preferences.getBoolean(KEY_MAIL_ENABLED, DEFAULT_KEY_MAIL_ENABLED);
+    }
+
+    /**
+     * Stores the subject line of the mail settings fragment.
+     *
+     * @param context      the {@link Context}.
+     * @param subjectLine the subject line of the mail settings fragment; or an empty string. Pass null to clear.
+     */
+    public void storeMailSettingsSubject(Context context, String subjectLine) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit();
+        if (subjectLine != null && subjectLine.length() > 0) {
+            editor.putString(KEY_SUBJECT_LINE_IN_MAIL_SETTINGS, subjectLine).apply();
+        } else {
+            editor.remove(KEY_SUBJECT_LINE_IN_MAIL_SETTINGS).apply();
+        }
+    }
+
+    /**
+     * Reads the subject line of the mail settings fragment.
+     *
+     * @param context the {@link Context}.
+     * @return the subject line of the mail settings fragment; or an empty string.
+     */
+    public String getMailSettingsSubject(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        return preferences.getString(KEY_SUBJECT_LINE_IN_MAIL_SETTINGS, DEFAULT_SUBJECT_IN_MAIL_SETTINGS);
+    }
+
+    /**
+     * Stores the subject line of the mail settings fragment.
+     *
+     * @param context      the {@link Context}.
+     * @param messageLine the message line of the mail settings fragment; or an empty string. Pass null to clear.
+     */
+    public void storeMailSettingsMessage(Context context, String messageLine) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit();
+        if (messageLine != null && messageLine.length() > 0) {
+            editor.putString(KEY_MESSAGE_LINE_IN_MAIL_SETTINGS, messageLine).apply();
+        } else {
+            editor.remove(KEY_MESSAGE_LINE_IN_MAIL_SETTINGS).apply();
+        }
+    }
+
+    /**
+     * Reads the subject line of the mail settings fragment.
+     *
+     * @param context the {@link Context}.
+     * @return the message line of the mail settings fragment; or an empty string.
+     */
+    public String getMailSettingsMessage(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        return preferences.getString(KEY_MESSAGE_LINE_IN_MAIL_SETTINGS, DEFAULT_MESSAGE_IN_MAIL_SETTINGS);
+    }
+
+    /**
+     * Stores the email line of the mail settings fragment.
+     *
+     * @param context      the {@link Context}.
+     * @param emailLine the email line of the mail settings fragment; or an empty string. Pass null to clear.
+     */
+    public void storeMailSettingsEmail(Context context, String emailLine) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit();
+        if (emailLine != null && emailLine.length() > 0) {
+            editor.putString(KEY_EMAIL_LINE_IN_MAIL_SETTINGS, emailLine).apply();
+        } else {
+            editor.remove(KEY_EMAIL_LINE_IN_MAIL_SETTINGS).apply();
+        }
+    }
+
+    /**
+     * Reads the email line of the mail settings fragment.
+     *
+     * @param context the {@link Context}.
+     * @return the email line of the mail settings fragment; or an empty string.
+     */
+    public String getMailSettingsEmail(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        return preferences.getString(KEY_EMAIL_LINE_IN_MAIL_SETTINGS, DEFAULT_EMAIL_IN_MAIL_SETTINGS);
     }
 }

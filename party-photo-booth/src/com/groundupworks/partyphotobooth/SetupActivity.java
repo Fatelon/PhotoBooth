@@ -24,6 +24,7 @@ import com.groundupworks.lib.photobooth.framework.BaseFragmentActivity;
 import com.groundupworks.partyphotobooth.kiosk.KioskModeHelper;
 import com.groundupworks.partyphotobooth.kiosk.KioskModeHelper.State;
 import com.groundupworks.partyphotobooth.kiosk.KioskService;
+import com.groundupworks.partyphotobooth.setup.fragments.EventAddMailFragment;
 import com.groundupworks.partyphotobooth.setup.fragments.EventInfoSetupFragment;
 import com.groundupworks.partyphotobooth.setup.fragments.PhotoBoothSetupFragment;
 import com.groundupworks.partyphotobooth.setup.fragments.ShareServicesSetupFragment;
@@ -57,6 +58,11 @@ public class SetupActivity extends BaseFragmentActivity implements EventInfoSetu
     }
 
     @Override
+    public void eventAddMailExecution() {
+        replaceFragment(EventAddMailFragment.newInstance(), true, false);
+    }
+
+    @Override
     public void onShareServicesSetupCompleted() {
         // Enable Kiosk mode.
         KioskModeHelper kioskModeHelper = new KioskModeHelper(this);
@@ -66,4 +72,5 @@ public class SetupActivity extends BaseFragmentActivity implements EventInfoSetu
         startService(new Intent(getApplicationContext(), KioskService.class));
         finish();
     }
+
 }

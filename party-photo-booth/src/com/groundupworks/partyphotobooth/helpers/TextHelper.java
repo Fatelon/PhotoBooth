@@ -20,8 +20,10 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.format.DateFormat;
+import android.util.Patterns;
 
 import java.util.Date;
+import java.util.regex.Pattern;
 
 /**
  * Helper class for rendering text.
@@ -127,5 +129,17 @@ public class TextHelper {
      */
     public static boolean isValid(String string) {
         return string != null && string.length() > 0;
+    }
+
+
+    /**
+     * Checks is valid e-mail.
+     *
+     * @param email the string.
+     * @return true if the e-mail is valid; false otherwise.
+     */
+    public static boolean isValidEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 }

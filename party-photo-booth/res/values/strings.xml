@@ -5,6 +5,7 @@
 
     <!-- Setup -->
     <string name="setup__button_text_next">Next</string>
+    <string name="setup__button_text_ok">Ok</string>
 
     <!-- Event Info Setup Fragment -->
     <string name="event_info_setup__title">Event Information</string>
@@ -29,8 +30,19 @@
     <string name="share_services_setup__facebook_title">Upload photo strips to Facebook</string>
     <string name="share_services_setup__dropbox_title">Upload photo strips to Dropbox</string>
     <string name="share_services_setup__gcp_title">Print with Google Cloud Print</string>
+    <string name="share_services_setup__mail_title">Email photo strips to guests</string>
+    <string name="share_services_setup__enabled">Enabled</string>
     <string name="share_services_setup__disabled">Disabled</string>
     <string name="share_services_setup__notice_enabled">Tell guests where to find their photos</string>
+
+    <!-- Add Mail Info Fragment -->
+    <string name="add_mail_info_setup__title">Mail parameters</string>
+    <string name="event_subject_setup__title">Subject</string>
+    <string name="event_subject_setup__line">Set subject</string>
+    <string name="event_message_setup__title">Message</string>
+    <string name="event_message_setup__line">Set message</string>
+    <string name="event_email_setup__title">E-mail</string>
+    <string name="event_email_setup__line">Set your e-mail</string>
 
     <!-- Photo Booth Mode Adapter -->
     <string name="photo_booth_mode_adapter__self_serve_display_name">Self-serve</string>
@@ -101,6 +113,7 @@
     <!-- Confirmation Fragment -->
     <string name="confirmation__message">Thank you for using\n%1$s</string>
     <string name="confirmation__button_submit_text">Submit</string>
+    <string name="confirmation__button_submit_email_text">Mail</string>
 
     <!-- Notice Fragment -->
     <string name="notice__title_text">Find your photo strip</string>

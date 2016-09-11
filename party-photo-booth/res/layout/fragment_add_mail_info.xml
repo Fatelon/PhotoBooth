@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/setup_add_mail_info_title"
+        style="@style/Text.Light.Heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="@dimen/kiosk_spacing"
+        android:text="@string/add_mail_info_setup__title" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/setup_add_mail_info_title"
+        android:stretchColumns="1,2">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/kiosk_spacing">
+
+            <TextView
+                style="@style/Text.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/kiosk_spacing"
+                android:text="@string/event_subject_setup__title" />
+
+            <EditText
+                android:id="@+id/setup_subject_line"
+                style="@style/Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="@string/event_subject_setup__line"
+                android:inputType="textCapSentences"
+                android:maxLength="100"
+                android:padding="@dimen/kiosk_spacing" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/kiosk_spacing">
+
+            <TextView
+                style="@style/Text.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/kiosk_spacing"
+                android:text="@string/event_message_setup__title" />
+
+            <EditText
+                android:id="@+id/setup_message_line"
+                style="@style/Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="@string/event_message_setup__line"
+                android:inputType="textCapSentences"
+                android:maxLength="1000"
+                android:padding="@dimen/kiosk_spacing" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/kiosk_spacing">
+
+            <TextView
+                style="@style/Text.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/kiosk_spacing"
+                android:text="@string/event_email_setup__title" />
+
+            <EditText
+                android:id="@+id/setup_email_line"
+                style="@style/Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="@string/event_email_setup__line"
+                android:inputType="textEmailAddress"
+                android:maxLength="1000"
+                android:padding="@dimen/kiosk_spacing" />
+
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/setup_add_mail_info_button_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/kiosk_spacing"
+        android:padding="@dimen/kiosk_spacing"
+        android:text="@string/setup__button_text_ok" />
+
+</RelativeLayout>

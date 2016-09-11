@@ -25,7 +25,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.groundupworks.partyphotobooth.MyApplication;
 import com.groundupworks.partyphotobooth.R;
 import com.groundupworks.partyphotobooth.helpers.PreferencesHelper;
 
@@ -76,7 +78,7 @@ public class ConfirmationFragment extends Fragment {
 
     private TextView mMessage;
 
-    private Button mSubmit;
+    private Button mSubmit, mSubmitEMail;
 
     @Override
     public void onAttach(Activity activity) {
@@ -92,7 +94,7 @@ public class ConfirmationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_confirmation, container, false);
         mMessage = (TextView) view.findViewById(R.id.confirmation_message);
         mSubmit = (Button) view.findViewById(R.id.confirmation_button_submit);
-
+        mSubmitEMail = (Button) view.findViewById(R.id.confirmation_button_submit_email);
         return view;
     }
 
@@ -111,6 +113,14 @@ public class ConfirmationFragment extends Fragment {
         if (PreferencesHelper.PhotoBoothMode.AUTOMATIC.equals(mode)) {
             mAutoSubmissionTimeout = AUTO_SUBMISSION_TIMEOUT_SHORT;
         } else {
+            //
+            mSubmitEMail.setVisibility(View.VISIBLE);
+            mSubmit.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MyApplication.getContext(), "it is work", Toast.LENGTH_SHORT).show();
+                }
+            });
             mSubmit.setVisibility(View.VISIBLE);
             mSubmit.setOnClickListener(new OnClickListener() {
                 @Override

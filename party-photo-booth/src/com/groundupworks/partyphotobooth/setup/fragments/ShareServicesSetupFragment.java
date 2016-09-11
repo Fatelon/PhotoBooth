@@ -79,6 +79,12 @@ public class ShareServicesSetupFragment extends Fragment {
 
     private TextView mGcpStatus;
 
+    private LinearLayout mMail;
+
+    private ImageView mMailIcon;
+
+    private TextView mMailStatus;
+
     private CheckBox mNoticeEnabled;
 
     private Button mNext;
@@ -105,6 +111,9 @@ public class ShareServicesSetupFragment extends Fragment {
         mGcp = (LinearLayout) view.findViewById(R.id.setup_share_services_gcp);
         mGcpIcon = (ImageView) view.findViewById(R.id.setup_share_services_gcp_icon);
         mGcpStatus = (TextView) view.findViewById(R.id.setup_share_services_gcp_status);
+        mMail = (LinearLayout) view.findViewById(R.id.setup_share_services_mail);
+        mMailIcon = (ImageView) view.findViewById(R.id.setup_share_services_mail_icon);
+        mMailStatus = (TextView) view.findViewById(R.id.setup_share_services_mail_status);
         mNoticeEnabled = (CheckBox) view.findViewById(R.id.setup_share_services_notice_enabled);
         mNext = (Button) view.findViewById(R.id.setup_share_services_button_next);
 
@@ -147,6 +156,7 @@ public class ShareServicesSetupFragment extends Fragment {
                 }
             }
         });
+        mMail.setOnClickListener(new MyMailOnClickListener());
     }
 
     @Override
@@ -174,6 +184,9 @@ public class ShareServicesSetupFragment extends Fragment {
 
         // Subscribe to Wings link events.
         Wings.subscribe(this);
+
+        // Jast check "Use mail" option state. (Not click)
+        updateUseMailOption(false, mMailStatus, mMailIcon);
     }
 
     @Override
@@ -316,6 +329,57 @@ public class ShareServicesSetupFragment extends Fragment {
         }
     }
 
+    /**
+     * Listener that "add mail" clicked.
+     */
+    private class MyMailOnClickListener implements OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            final Context appContext = getActivity().getApplicationContext();
+            final PreferencesHelper preferencesHelper = new PreferencesHelper();
+            boolean isUseMailEnable = preferencesHelper.getMailEnabled(appContext);
+            updateUseMailOption(true, mMailStatus, mMailIcon);
+            // If we already use mail - simply cease to use, start use and go to mail settings screen otherwise.
+            if (!isUseMailEnable) {
+                // Call to client.
+                ICallbacks callbacks = getCallbacks();
+                if (callbacks != null) {
+                    callbacks.eventAddMailExecution();
+                }
+            }
+        }
+    }
+
+    /**
+     * Update the use mail LinearLayout appearance.
+     */
+    private void updateUseMailOption(boolean isClick, TextView statusView, ImageView iconView) {
+        final Context appContext = getActivity().getApplicationContext();
+        final PreferencesHelper preferencesHelper = new PreferencesHelper();
+        boolean isUseMailEnable = preferencesHelper.getMailEnabled(appContext);
+        if (isClick) {
+            if (isUseMailEnable) {
+                isUseMailEnable = false;
+                preferencesHelper.storeMailEnabled(appContext, isUseMailEnable);
+            } else {
+                isUseMailEnable = true;
+                preferencesHelper.storeMailEnabled(appContext, isUseMailEnable);
+            }
+        }
+        String status = getString(R.string.share_services_setup__disabled);
+        int color = getResources().getColor(R.color.text_light);
+        boolean iconEnabled = false;
+        if (isUseMailEnable) {
+            status = getString(R.string.share_services_setup__enabled);
+            color = getResources().getColor(R.color.text_dark);
+            iconEnabled = true;
+        }
+        statusView.setText(status);
+        statusView.setTextColor(color);
+        iconView.setEnabled(iconEnabled);
+    }
+
     //
     // Interfaces.
     //
@@ -329,5 +393,10 @@ public class ShareServicesSetupFragment extends Fragment {
          * Setup of the share services has completed.
          */
         void onShareServicesSetupCompleted();
+
+        /**
+         * Setup of the AddMail fragment execution.
+         */
+        void eventAddMailExecution();
     }
 }
