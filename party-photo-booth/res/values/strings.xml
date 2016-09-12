@@ -113,7 +113,7 @@
     <!-- Confirmation Fragment -->
     <string name="confirmation__message">Thank you for using\n%1$s</string>
     <string name="confirmation__button_submit_text">Submit</string>
-    <string name="confirmation__button_submit_email_text">Mail</string>
+    <string name="confirmation__button_submit_email_text">E-mail</string>
 
     <!-- Notice Fragment -->
     <string name="notice__title_text">Find your photo strip</string>

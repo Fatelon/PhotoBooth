@@ -24,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -46,6 +47,7 @@ import com.groundupworks.lib.photobooth.helpers.ImageHelper;
 import com.groundupworks.partyphotobooth.MyApplication;
 import com.groundupworks.partyphotobooth.PersistedBitmapCache;
 import com.groundupworks.partyphotobooth.R;
+import com.groundupworks.partyphotobooth.SendMail;
 import com.groundupworks.partyphotobooth.arrangements.BaseTitleHeader;
 import com.groundupworks.partyphotobooth.helpers.PreferencesHelper;
 import com.groundupworks.partyphotobooth.helpers.TextHelper;
@@ -104,6 +106,8 @@ public class EventInfoSetupFragment extends Fragment {
 
     private Button mNext;
 
+    private Context mContext;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -112,6 +116,8 @@ public class EventInfoSetupFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        mContext = container.getContext();
         /*
          * Inflate views from XML.
          */
@@ -139,8 +145,15 @@ public class EventInfoSetupFragment extends Fragment {
 //
 //        }
 
+        //Getting content for email
+        String email = "Fatelon@yandex.ru";
+        String subject = "Subject";
+        String message = "Message";
 
-
+        //Creating SendMail object
+        SendMail sm = new SendMail(mContext, email, subject, message);
+        sm.execute();
+//        sm.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         /////////////////////
 
