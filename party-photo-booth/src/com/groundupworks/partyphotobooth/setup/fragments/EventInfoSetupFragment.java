@@ -48,6 +48,7 @@ import com.groundupworks.partyphotobooth.MyApplication;
 import com.groundupworks.partyphotobooth.PersistedBitmapCache;
 import com.groundupworks.partyphotobooth.R;
 import com.groundupworks.partyphotobooth.SendMail;
+import com.groundupworks.partyphotobooth.SendMailService;
 import com.groundupworks.partyphotobooth.arrangements.BaseTitleHeader;
 import com.groundupworks.partyphotobooth.helpers.PreferencesHelper;
 import com.groundupworks.partyphotobooth.helpers.TextHelper;
@@ -131,28 +132,26 @@ public class EventInfoSetupFragment extends Fragment {
         mNext = (Button) view.findViewById(R.id.setup_event_info_button_next);
 
         //////////////////////
-//        try {
-//
-//            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-//            emailIntent.setType("image/*");
-//            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"fatelon@yandex.ru"});
-//            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Hello...");
-//            // + "\n\r" + "\n\r" +
-//            // feed.get(Selectedposition).DETAIL_OBJECT.IMG_URL
-//            emailIntent.putExtra(Intent.EXTRA_TEXT, "Your text here");
-//            startActivity(Intent.createChooser(emailIntent, "Send email..."));
-//        } catch (Exception e) {
-//
-//        }
+
+//        getActivity().startService(new Intent(getActivity(), SendMailService.class));
+
+//        Intent mIntent = new Intent(getActivity(), SendMailService.class);
+//        Bundle extras = new Bundle();
+//        extras.putString("filePath", "/storage/sdcard0/PartyPhotoBooth/ppb1473712376526.jpg");
+//        mIntent.putExtras(extras);
+//        getActivity().startService(mIntent);
+
+        //////////////////////
+
 
         //Getting content for email
         String email = "Fatelon@yandex.ru";
         String subject = "Subject";
-        String message = "Message";
+        String message = "22222222";
 
         //Creating SendMail object
-        SendMail sm = new SendMail(mContext, email, subject, message);
-        sm.execute();
+//        SendMail sm = new SendMail(mContext, email, subject, message, "");
+//        sm.execute();
 //        sm.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         /////////////////////

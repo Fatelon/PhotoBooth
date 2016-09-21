@@ -17,19 +17,30 @@
 package com.groundupworks.partyphotobooth.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.Layout;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.groundupworks.partyphotobooth.MyApplication;
 import com.groundupworks.partyphotobooth.R;
+import com.groundupworks.partyphotobooth.SendMail;
 import com.groundupworks.partyphotobooth.helpers.PreferencesHelper;
+import com.groundupworks.partyphotobooth.helpers.TextHelper;
 
 import java.lang.ref.WeakReference;
 import java.util.Timer;
@@ -50,12 +61,12 @@ public class ConfirmationFragment extends Fragment {
     /**
      * The short timeout for auto-submission to trigger in milliseconds.
      */
-    private static final long AUTO_SUBMISSION_TIMEOUT_SHORT = 15000L;
+    private static final long AUTO_SUBMISSION_TIMEOUT_SHORT = 150000L;
 
     /**
      * The long timeout for auto-submission to trigger in milliseconds.
      */
-    private static final long AUTO_SUBMISSION_TIMEOUT_LONG = 60000L;
+    private static final long AUTO_SUBMISSION_TIMEOUT_LONG = 600000L;
 
     /**
      * Timer for scheduling auto-submission of photo strip.
@@ -72,13 +83,17 @@ public class ConfirmationFragment extends Fragment {
      */
     private WeakReference<ConfirmationFragment.ICallbacks> mCallbacks = null;
 
+    private PreferencesHelper mPreferencesHelper = new PreferencesHelper();
+
     //
     // Views.
     //
 
     private TextView mMessage;
 
-    private Button mSubmit, mSubmitEMail;
+    private Button mSubmit;
+
+    private Context mContext;
 
     @Override
     public void onAttach(Activity activity) {
@@ -88,41 +103,35 @@ public class ConfirmationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mContext = container.getContext();
         /*
          * Inflate views from XML.
          */
         View view = inflater.inflate(R.layout.fragment_confirmation, container, false);
         mMessage = (TextView) view.findViewById(R.id.confirmation_message);
         mSubmit = (Button) view.findViewById(R.id.confirmation_button_submit);
-        mSubmitEMail = (Button) view.findViewById(R.id.confirmation_button_submit_email);
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        String message = getString(R.string.confirmation__message, getString(R.string.app_name));
-        mMessage.setText(message);
-
         // Get from preference.
         PreferencesHelper preferencesHelper = new PreferencesHelper();
         PreferencesHelper.PhotoBoothMode mode = preferencesHelper.getPhotoBoothMode(getActivity());
+
+
+
+        String message = getString(R.string.confirmation__message, getString(R.string.app_name));
+        mMessage.setText(message);
+        mMessage.setVisibility(View.VISIBLE);
 
         // Set submission mode.
         if (PreferencesHelper.PhotoBoothMode.AUTOMATIC.equals(mode)) {
             mAutoSubmissionTimeout = AUTO_SUBMISSION_TIMEOUT_SHORT;
         } else {
-            //
-            mSubmitEMail.setVisibility(View.VISIBLE);
-            mSubmit.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(MyApplication.getContext(), "it is work", Toast.LENGTH_SHORT).show();
-                }
-            });
             mSubmit.setVisibility(View.VISIBLE);
-            mSubmit.setOnClickListener(new OnClickListener() {
+            mSubmit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Disable to prevent multiple clicks.
@@ -155,7 +164,8 @@ public class ConfirmationFragment extends Fragment {
                 if (activity != null && !activity.isFinishing()) {
                     activity.runOnUiThread(new Runnable() {
                         @Override
-                        public void run() {
+                            public void run() {
+
                             // Call to client.
                             ICallbacks callbacks = getCallbacks();
                             if (callbacks != null) {

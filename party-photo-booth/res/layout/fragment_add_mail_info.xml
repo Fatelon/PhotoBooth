@@ -90,7 +90,32 @@
                 android:layout_weight="0.5"
                 android:hint="@string/event_email_setup__line"
                 android:inputType="textEmailAddress"
-                android:maxLength="1000"
+                android:maxLength="50"
+                android:padding="@dimen/kiosk_spacing" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/kiosk_spacing">
+
+            <TextView
+                style="@style/Text.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/kiosk_spacing"
+                android:text="@string/event_password_setup__title" />
+
+            <EditText
+                android:id="@+id/setup_email_password_line"
+                style="@style/Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="@string/event_password_setup__line"
+                android:inputType="textPassword"
+                android:maxLength="50"
                 android:padding="@dimen/kiosk_spacing" />
 
         </TableRow>

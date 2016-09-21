@@ -16,9 +16,13 @@
  */
 package com.groundupworks.partyphotobooth;
 
+import android.app.ActivityManager;
+import android.content.Intent;
 import android.os.Handler;
 
 import com.groundupworks.lib.photobooth.framework.BaseApplication;
+
+import java.util.List;
 
 /**
  * A concrete {@link BaseApplication} class.
@@ -36,6 +40,19 @@ public class MyApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         mCache = new PersistedBitmapCache(this, new Handler(getWorkerLooper()), new Handler(getMainLooper()));
+        boolean tStartService = true;
+        ActivityManager am = (ActivityManager)this.getSystemService(this.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> rs = am.getRunningServices(500);
+        for (int  j = 0;j < rs.size(); j++) {
+            ActivityManager.RunningServiceInfo rsi = rs.get(j);
+            if(SendMailService.class.getName().equalsIgnoreCase(rsi.service.getClassName())){
+                tStartService = false;
+                break;
+            }
+        }
+        if(tStartService){
+            startService(new Intent(this, SendMailService.class));
+        }
     }
 
     //

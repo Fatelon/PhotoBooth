@@ -542,6 +542,7 @@ public class CaptureFragment extends Fragment {
      */
     private void takePicture() {
         if (isActivityAlive() && mCamera != null) {
+//            initiateCapture();
             try {
                 mCamera.takePicture(new Camera.ShutterCallback() {
                     @Override

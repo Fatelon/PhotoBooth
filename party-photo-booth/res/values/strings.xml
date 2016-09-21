@@ -6,6 +6,7 @@
     <!-- Setup -->
     <string name="setup__button_text_next">Next</string>
     <string name="setup__button_text_ok">Ok</string>
+    <string name="setup__button_text_cancel">Cancel</string>
 
     <!-- Event Info Setup Fragment -->
     <string name="event_info_setup__title">Event Information</string>
@@ -42,7 +43,9 @@
     <string name="event_message_setup__title">Message</string>
     <string name="event_message_setup__line">Set message</string>
     <string name="event_email_setup__title">E-mail</string>
-    <string name="event_email_setup__line">Set your e-mail</string>
+    <string name="event_email_setup__line">Set your e-mail address</string>
+    <string name="event_password_setup__title">Password</string>
+    <string name="event_password_setup__line">Set your password</string>
 
     <!-- Photo Booth Mode Adapter -->
     <string name="photo_booth_mode_adapter__self_serve_display_name">Self-serve</string>
@@ -118,5 +121,8 @@
     <!-- Notice Fragment -->
     <string name="notice__title_text">Find your photo strip</string>
     <string name="notice__button_ok_text">OK</string>
+
+    <!-- My Dialog Activity -->
+    <string name="add_mail_title">If you would like to email this picture, enter email now.</string>
 
 </resources>

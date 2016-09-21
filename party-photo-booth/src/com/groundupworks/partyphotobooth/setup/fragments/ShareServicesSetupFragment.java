@@ -132,6 +132,7 @@ public class ShareServicesSetupFragment extends Fragment {
         mFacebook.setOnClickListener(new MyLinkOnClickListener(FacebookEndpoint.class));
         mDropbox.setOnClickListener(new MyLinkOnClickListener(DropboxEndpoint.class));
         mGcp.setOnClickListener(new MyLinkOnClickListener(GoogleCloudPrintEndpoint.class));
+        mMail.setOnClickListener(new MyMailOnClickListener());
 
         final PreferencesHelper preferencesHelper = new PreferencesHelper();
         boolean isChecked = preferencesHelper.getNoticeEnabled(appContext);
@@ -156,7 +157,6 @@ public class ShareServicesSetupFragment extends Fragment {
                 }
             }
         });
-        mMail.setOnClickListener(new MyMailOnClickListener());
     }
 
     @Override

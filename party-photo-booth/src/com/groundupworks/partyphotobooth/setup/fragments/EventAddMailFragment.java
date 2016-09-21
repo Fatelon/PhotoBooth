@@ -37,6 +37,8 @@ public class EventAddMailFragment extends Fragment {
 
     private EditText mEmail;
 
+    private EditText mEmailPassword;
+
     private Button mOk;
 
     @Override
@@ -48,6 +50,7 @@ public class EventAddMailFragment extends Fragment {
         mSubject = (EditText) view.findViewById(R.id.setup_subject_line);
         mMessage = (EditText) view.findViewById(R.id.setup_message_line);
         mEmail = (EditText) view.findViewById(R.id.setup_email_line);
+        mEmailPassword = (EditText) view.findViewById(R.id.setup_email_password_line);
         mOk = (Button) view.findViewById(R.id.setup_add_mail_info_button_ok);
 
         mEmail.setOnKeyListener(new View.OnKeyListener() {
@@ -65,7 +68,7 @@ public class EventAddMailFragment extends Fragment {
                                 }
                             });
                     alertDialog.show();
-                    consumed = true;
+//                    consumed = true;
                 }
                 return consumed;
             }
@@ -82,6 +85,7 @@ public class EventAddMailFragment extends Fragment {
         String subjectLine = mPreferencesHelper.getMailSettingsSubject(appContext);
         String messageLine = mPreferencesHelper.getMailSettingsMessage(appContext);
         String emailLine = mPreferencesHelper.getMailSettingsEmail(appContext);
+        String passwordLine = mPreferencesHelper.getMailPasswordSettingsEmail(appContext);
 
         if (TextHelper.isValid(subjectLine)) {
             mSubject.setText(subjectLine);
@@ -95,6 +99,11 @@ public class EventAddMailFragment extends Fragment {
 
         if (TextHelper.isValid(emailLine)) {
             mEmail.setText(emailLine);
+//            mMessage.setNextFocusDownId(R.id.setup_event_info_line_two);
+        }
+
+        if (TextHelper.isValid(passwordLine)) {
+            mEmailPassword.setText(passwordLine);
 //            mMessage.setNextFocusDownId(R.id.setup_event_info_line_two);
         }
 
@@ -133,6 +142,14 @@ public class EventAddMailFragment extends Fragment {
             emailLineString = emailLine.toString();
         }
         mPreferencesHelper.storeMailSettingsEmail(appContext, emailLineString);
+
+        // Store email password.
+        String passwordLineString = null;
+        Editable passwordLine = mEmailPassword.getText();
+        if (passwordLine != null && passwordLine.length() > 0) {
+            passwordLineString = passwordLine.toString();
+        }
+        mPreferencesHelper.storeMailPasswordSettingsEmail(appContext, passwordLineString);
 
         super.onPause();
     }

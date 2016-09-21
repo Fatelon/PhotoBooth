@@ -21,6 +21,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
+import com.groundupworks.partyphotobooth.MailObject;
+
 import java.util.Date;
 
 /**
@@ -280,6 +282,16 @@ public class PreferencesHelper {
     private static final String DEFAULT_EMAIL_IN_MAIL_SETTINGS = "";
 
     /**
+     * The default preferences for the password line of the mail settings fragment.
+     */
+    private static final String DEFAULT_EMAIL_PASSWORD_IN_MAIL_SETTINGS = "";
+
+    /**
+     * The default preferences for the email line in the conformation fragment.
+     */
+    private static final String DEFAULT_EMAIL_IN_CONFORMATION = "";
+
+    /**
      * Key for the subject line of the mail settings fragment.
      */
     private static final String KEY_SUBJECT_LINE_IN_MAIL_SETTINGS = "subjectLineMailSettings";
@@ -293,6 +305,16 @@ public class PreferencesHelper {
      * Key for the message line of the mail settings fragment.
      */
     private static final String KEY_EMAIL_LINE_IN_MAIL_SETTINGS = "emailLineMailSettings";
+
+    /**
+     * Key for the password line of the mail settings fragment.
+     */
+    private static final String KEY_EMAIL_PASSWORD_LINE_IN_MAIL_SETTINGS = "passwordLineInMailSettings";
+
+    /**
+     * Key for the message line on the conformation fragment.
+     */
+    private static final String KEY_EMAIL_LINE_IN_CONFORMATION = "emailLineMailConformation";
 
     //
     // Public methods.
@@ -588,5 +610,57 @@ public class PreferencesHelper {
     public String getMailSettingsEmail(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         return preferences.getString(KEY_EMAIL_LINE_IN_MAIL_SETTINGS, DEFAULT_EMAIL_IN_MAIL_SETTINGS);
+    }
+
+    /**
+     * Stores the password line of the mail settings fragment.
+     *
+     * @param context      the {@link Context}.
+     * @param passwordLine the password line of the mail settings fragment; or an empty string. Pass null to clear.
+     */
+    public void storeMailPasswordSettingsEmail(Context context, String passwordLine) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit();
+        if (passwordLine != null && passwordLine.length() > 0) {
+            editor.putString(KEY_EMAIL_PASSWORD_LINE_IN_MAIL_SETTINGS, passwordLine).apply();
+        } else {
+            editor.remove(KEY_EMAIL_PASSWORD_LINE_IN_MAIL_SETTINGS).apply();
+        }
+    }
+
+    /**
+     * Reads the password line of the mail settings fragment.
+     *
+     * @param context the {@link Context}.
+     * @return the password line of the mail settings fragment; or an empty string.
+     */
+    public String getMailPasswordSettingsEmail(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        return preferences.getString(KEY_EMAIL_PASSWORD_LINE_IN_MAIL_SETTINGS, DEFAULT_EMAIL_PASSWORD_IN_MAIL_SETTINGS);
+    }
+
+    /**
+     * Stores the user email line of the confirmation fragment.
+     *
+     * @param context      the {@link Context}.
+     * @param emailLine the user email line of the confirmation fragment; or an empty string. Pass null to clear.
+     */
+    public void storeUserMail(Context context, String emailLine) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit();
+        if (emailLine != null && emailLine.length() > 0) {
+            editor.putString(KEY_EMAIL_LINE_IN_CONFORMATION, emailLine).apply();
+        } else {
+            editor.remove(KEY_EMAIL_LINE_IN_CONFORMATION).apply();
+        }
+    }
+
+    /**
+     * Reads the user email line.
+     *
+     * @param context the {@link Context}.
+     * @return the user email line of the confirmation fragment; or an empty string.
+     */
+    public String getUserMail(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        return preferences.getString(KEY_EMAIL_LINE_IN_CONFORMATION, DEFAULT_EMAIL_IN_CONFORMATION);
     }
 }

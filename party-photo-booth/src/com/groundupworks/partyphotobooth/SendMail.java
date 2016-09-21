@@ -3,17 +3,27 @@ package com.groundupworks.partyphotobooth;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.groundupworks.partyphotobooth.helpers.PreferencesHelper;
+
+import java.io.IOException;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**
  * Created by User on 12.09.2016.
@@ -22,30 +32,29 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
 
     //Declaring Variables
     private Context context;
+
     private Session session;
 
+    private PreferencesHelper mPreferencesHelper = new PreferencesHelper();
+
     //Information to send email
-    private String email;
-    private String subject;
-    private String message;
+    private MailObject mailObject = new MailObject();
 
     //Progressdialog to show while sending email
-    private ProgressDialog progressDialog;
+//    private ProgressDialog progressDialog;
 
     //Class Constructor
-    public SendMail(Context context, String email, String subject, String message){
+    public SendMail(Context context, MailObject mailObject){
         //Initializing variables
         this.context = context;
-        this.email = email;
-        this.subject = subject;
-        this.message = message;
+        this.mailObject = mailObject;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         //Showing progress dialog while sending email
-        progressDialog = ProgressDialog.show(context,"Sending message","Please wait...",false,false);
+        //progressDialog = ProgressDialog.show(context,"Sending message","Please wait...",false,false);
     }
 
     @Override
@@ -66,27 +75,60 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
                 new javax.mail.Authenticator() {
                     //Authenticating the password
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("Fatelon@gmail.com", "220919930999!G");
+                        return new PasswordAuthentication(mailObject.getHostAddress(), mailObject.getHostPassword());
                     }
                 });
 
         try {
             //Creating MimeMessage object
             MimeMessage mm = new MimeMessage(session);
-
             //Setting sender address
-            mm.setFrom(new InternetAddress("Fatelon@gmail.com"));
+            mm.setFrom(new InternetAddress(mailObject.getHostAddress()));
             //Adding receiver
-            mm.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            mm.addRecipient(Message.RecipientType.TO, new InternetAddress(mailObject.getUserAddress()));
             //Adding subject
-            mm.setSubject(subject);
+            mm.setSubject(mailObject.getSubject());
             //Adding message
-            mm.setText(message);
+            mm.setText(mailObject.getMessage());
+            //Adding fileName
+            try {
+                MimeMultipart multipart = new MimeMultipart("related");
+                BodyPart messageBodyPart = new MimeBodyPart();
+                String htmlText = "<H1>" + mailObject.getMessage() + "</H1><img src=\"cid:image\">";
+                messageBodyPart.setContent(htmlText, "text/html");
+                // add it
+                multipart.addBodyPart(messageBodyPart);
 
+                // second part (the image)
+                messageBodyPart = new MimeBodyPart();
+                DataSource fds = new FileDataSource(mailObject.getFilePath());
+
+                messageBodyPart.setDataHandler(new DataHandler(fds));
+                messageBodyPart.setHeader("Content-ID", "<image>");
+
+                // add image to the multipart
+                multipart.addBodyPart(messageBodyPart);
+
+                // put everything together
+                mm.setContent(multipart);
+            } catch (Exception e) {
+                Log.i("sendObject", e.toString());
+                e.printStackTrace();
+            }
             //Sending email
             Transport.send(mm);
-
+            Log.i("sendObject", mailObject.getHostAddress() + " " + mailObject.getHostPassword()
+                    + " " + mailObject.getUserAddress() + " " + mailObject.getFilePath()
+                    + " " + mailObject.getSubject() + " " + mailObject.getMessage());
         } catch (MessagingException e) {
+            String s = e.toString();
+            Log.i("sendObject", s);
+            if (!mailObject.getUserAddress().equals("") && !mailObject.getHostAddress().equals("")
+                    && e.toString().contains("Could not connect to SMTP host")) {
+                MyBDHelper myBDHelper = MyBDHelper.getInstance(context);
+                myBDHelper.addMailObject(mailObject);
+                Log.i("sendObject", "Could not connect to SMTP host");
+            }
             e.printStackTrace();
         }
         return null;
@@ -96,9 +138,9 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         //Dismissing the progress dialog
-        progressDialog.dismiss();
+//        progressDialog.dismiss();
         //Showing a success message
-        Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
+//        Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
     }
 
 }

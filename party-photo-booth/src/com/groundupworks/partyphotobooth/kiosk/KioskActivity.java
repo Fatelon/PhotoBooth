@@ -17,6 +17,7 @@
 package com.groundupworks.partyphotobooth.kiosk;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -34,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.groundupworks.partyphotobooth.R;
+import com.groundupworks.partyphotobooth.fragments.AddUserMailFragment;
 import com.groundupworks.partyphotobooth.fragments.CaptureFragment;
 import com.groundupworks.partyphotobooth.fragments.ConfirmationFragment;
 import com.groundupworks.partyphotobooth.fragments.ErrorDialogFragment;
@@ -51,7 +53,7 @@ import java.lang.ref.WeakReference;
  */
 public class KioskActivity extends FragmentActivity implements KioskSetupFragment.ICallbacks,
         PhotoStripFragment.ICallbacks, CaptureFragment.ICallbacks, ConfirmationFragment.ICallbacks,
-        NoticeFragment.ICallbacks, ErrorDialogFragment.ICallbacks {
+        NoticeFragment.ICallbacks, ErrorDialogFragment.ICallbacks, AddUserMailFragment.ICallbacks {
 
     /**
      * Package private flag to track whether the single instance {@link KioskActivity} is in foreground.
@@ -83,6 +85,8 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
      */
     private int mTotalFrames;
 
+    private Context mContext;
+
     //
     // Fragments.
     //
@@ -93,6 +97,8 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
 
     private NoticeFragment mNoticeFragment = null;
 
+    private AddUserMailFragment mAddUserMailFragment = null;
+
     //
     // Views.
     //
@@ -102,7 +108,7 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mContext = this;
         mKioskModeHelper = new KioskModeHelper(this);
         mPreferencesHelper = new PreferencesHelper();
         mCurrentFrame = 1;
@@ -116,9 +122,17 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
         // Configure button to exit Kiosk mode.
         ImageView exitButton = (ImageView) findViewById(R.id.kiosk_exit_button);
         mFlashScreen = findViewById(R.id.flash_screen);
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchPhotoBoothUi();
+            }
+        });
+
         exitButton.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+
                 if (mKioskModeHelper.isPasswordRequired()) {
                     showDialogFragment(KioskPasswordDialogFragment.newInstance());
                 } else {
@@ -138,7 +152,6 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
     public void onResume() {
         super.onResume();
         sIsInForeground = true;
-
         // Choose fragments to start with based on whether Kiosk mode setup has completed.
         if (mKioskModeHelper.isSetupCompleted()) {
             launchPhotoBoothUi();
@@ -165,6 +178,7 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
     @Override
     public void onBackPressed() {
         // Do nothing.
+        launchPhotoBoothUi();
     }
 
     @Override
@@ -327,9 +341,16 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
 
     @Override
     public void onSubmit() {
-        if (mPhotoStripFragment != null) {
-            mPhotoStripFragment.submitPhotoStrip();
-        }
+
+        boolean isEmailEnabled = mPreferencesHelper.getMailEnabled(this);
+            if (isEmailEnabled) {
+                mAddUserMailFragment = AddUserMailFragment.newInstance();
+                replaceTopFragment(mAddUserMailFragment);
+            } else {
+                if (mPhotoStripFragment != null) {
+                    mPhotoStripFragment.submitPhotoStrip();
+                }
+            }
     }
 
     //
@@ -374,6 +395,7 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
      */
     private void launchKioskSetupFragment() {
         mKioskSetupFragment = KioskSetupFragment.newInstance();
+
         replaceTopFragment(mKioskSetupFragment);
     }
 
@@ -393,6 +415,7 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
     }
 
     /**
+     * Launches a new {@link CaptureFragment} in the right side container.
      * Launches a new {@link CaptureFragment} in the right side container.
      */
     private void launchCaptureFragment() {
@@ -435,6 +458,16 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
         if (mNoticeFragment != null) {
             removeFragment(mNoticeFragment);
             mNoticeFragment = null;
+        }
+    }
+
+    /**
+     * Dismisses the {@link AddUserMailFragment}.
+     */
+    private void dismissAddUserMailFragment() {
+        if (mAddUserMailFragment != null) {
+            removeFragment(mAddUserMailFragment);
+            mAddUserMailFragment = null;
         }
     }
 
@@ -509,6 +542,19 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
 
         // Finish KioskActivity.
         finish();
+    }
+
+    @Override
+    public void userMailAddressAnswer(String userAnswer) {
+        if (userAnswer.equals("cancle")) {
+            mPreferencesHelper.storeUserMail(mContext, null);
+        } else {
+            mPreferencesHelper.storeUserMail(mContext, userAnswer);
+        }
+        if (mPhotoStripFragment != null) {
+            mPhotoStripFragment.submitPhotoStrip();
+        }
+        dismissAddUserMailFragment();
     }
 
     //

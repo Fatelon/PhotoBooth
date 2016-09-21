@@ -275,7 +275,6 @@ public class PhotoStripFragment extends ControllerBackedFragment<PhotoStripContr
                 boolean facebookShared = bundle.getBoolean(PhotoStripController.MESSAGE_BUNDLE_KEY_FACEBOOK_SHARED);
                 boolean dropboxShared = bundle.getBoolean(PhotoStripController.MESSAGE_BUNDLE_KEY_DROPBOX_SHARED);
                 boolean gcpShared = bundle.getBoolean(PhotoStripController.MESSAGE_BUNDLE_KEY_GCP_SHARED);
-
                 // Call to client.
                 if (callbacks != null) {
                     callbacks.onPhotoStripSubmitted(facebookShared, dropboxShared, gcpShared);
@@ -553,5 +552,10 @@ public class PhotoStripFragment extends ControllerBackedFragment<PhotoStripContr
          * An error occurred while attempting to submit the current photo strip.
          */
         public void onErrorPhotoStripSubmit();
+
+
+        /**
+         * shit code
+         */
     }
 }

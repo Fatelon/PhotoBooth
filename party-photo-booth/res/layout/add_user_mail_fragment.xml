@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
+
+    <TextView
+        android:id="@+id/add_user_mail_title"
+        style="@style/Text.Light.Heavy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="@dimen/kiosk_spacing"
+        android:text="@string/add_mail_title" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/add_user_mail_title">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/kiosk_spacing">
+
+            <TextView
+                style="@style/Text.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/kiosk_spacing"
+                android:text="@string/event_email_setup__title" />
+
+            <EditText
+                android:id="@+id/setup_email_line"
+                style="@style/Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="@string/event_email_setup__line"
+                android:inputType="textEmailAddress"
+                android:maxLength="50"
+                android:padding="@dimen/kiosk_spacing" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <Button
+        android:id="@+id/add_user_mail_button_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/kiosk_spacing"
+        android:padding="@dimen/kiosk_spacing"
+        android:text="@string/setup__button_text_ok" />
+
+    <Button
+        android:id="@+id/add_user_mail_button_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="@dimen/kiosk_spacing"
+        android:padding="@dimen/kiosk_spacing"
+        android:text="@string/setup__button_text_cancel" />
+
+</RelativeLayout>

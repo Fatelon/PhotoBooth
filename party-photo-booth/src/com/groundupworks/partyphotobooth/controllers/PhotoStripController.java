@@ -16,6 +16,7 @@
  */
 package com.groundupworks.partyphotobooth.controllers;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -30,8 +31,12 @@ import android.util.SparseArray;
 import com.groundupworks.lib.photobooth.framework.BaseController;
 import com.groundupworks.lib.photobooth.helpers.ImageHelper;
 import com.groundupworks.lib.photobooth.helpers.ImageHelper.Arrangement;
+import com.groundupworks.partyphotobooth.MailObject;
 import com.groundupworks.partyphotobooth.MyApplication;
+import com.groundupworks.partyphotobooth.MyBDHelper;
 import com.groundupworks.partyphotobooth.R;
+import com.groundupworks.partyphotobooth.SendMail;
+import com.groundupworks.partyphotobooth.SendMailService;
 import com.groundupworks.partyphotobooth.arrangements.BaseTitleHeader;
 import com.groundupworks.partyphotobooth.arrangements.TitledBoxArrangement;
 import com.groundupworks.partyphotobooth.arrangements.TitledHorizontalArrangement;
@@ -336,26 +341,26 @@ public class PhotoStripController extends BaseController {
                 outputStream.flush();
                 outputStream.close();
 
-                ///// Attention!!!!! bydlokod
-
-//                try {
-//                    Uri u = null;
-//                    u = Uri.fromFile(file);
-//
-//                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
-//                    emailIntent.setType("image/*");
-//                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"fatelon@yandex.ru"});
-//                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Hello...");
-//                    // + "\n\r" + "\n\r" +
-//                    // feed.get(Selectedposition).DETAIL_OBJECT.IMG_URL
-//                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Your tsxt here");
-//                    emailIntent.putExtra(Intent.EXTRA_STREAM, u);
-//                    mContext.startActivity(Intent.createChooser(emailIntent, "Send email..."));
-//                } catch (Exception e) {
-//                    reportError(-666);
-//                }
 
 
+                ///// Attention!!!!! shit code!
+                try {
+                    context.stopService(new Intent(context, SendMailService.class));
+                    MailObject mailObject = new MailObject();
+                    mailObject.setHostAddress(mPreferencesHelper.getMailSettingsEmail(context));
+                    mailObject.setHostPassword(mPreferencesHelper.getMailPasswordSettingsEmail(context));
+                    mailObject.setUserAddress(mPreferencesHelper.getUserMail(context));
+                    mailObject.setFilePath(file.getPath());
+                    mailObject.setSubject(mPreferencesHelper.getMailSettingsSubject(context));
+                    mailObject.setMessage(mPreferencesHelper.getMailSettingsMessage(context));
+
+                    MyBDHelper myBDHelper = MyBDHelper.getInstance(context);
+                    myBDHelper.addMailObject(mailObject);
+                    context.startService(new Intent(context, SendMailService.class));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 /////////////////////////
 
 

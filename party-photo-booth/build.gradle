@@ -4,6 +4,7 @@ dependencies {
     compile 'com.android.support:support-v4:22.0.0'
     compile project(':lib-photo-booth')
     compile files('libs/mail.jar')
+    compile files('libs/activation.jar')
 }
 
 android {
