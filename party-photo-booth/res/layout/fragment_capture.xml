@@ -5,6 +5,36 @@
 
     <!-- Capture button -->
 
+    <LinearLayout
+        android:id="@+id/capture_button_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/kiosk_spacing" >
+
+        <include
+            android:id="@+id/capture_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/view_capture_button" />
+
+        <include
+            android:id="@+id/capture_button_long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/view_capture_button_long" />
+
+    </LinearLayout>
+    <!--<include
+        android:id="@+id/capture_button_long"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/kiosk_spacing"
+        layout="@layout/view_capture_button" />
+
     <include
         android:id="@+id/capture_button"
         android:layout_width="wrap_content"
@@ -12,7 +42,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/kiosk_spacing"
-        layout="@layout/view_capture_button" />
+        layout="@layout/view_capture_button" /> -->
+
+
 
     <!-- Frame count -->
 
@@ -21,10 +53,10 @@
         style="@style/Text.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/capture_button"
+        android:layout_alignBottom="@id/capture_button_layout"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/capture_button"
-        android:layout_toRightOf="@id/capture_button"
+        android:layout_alignTop="@id/capture_button_layout"
+        android:layout_toRightOf="@id/capture_button_layout"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
@@ -34,7 +66,7 @@
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/capture_button"
+        android:layout_above="@id/capture_button_layout"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/kiosk_spacing"
         android:background="@color/background_color" />

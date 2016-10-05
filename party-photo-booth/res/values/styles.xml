@@ -42,4 +42,9 @@
 
     <style name="ThemeSelectorFullscreen" parent="android:Theme.Light.NoTitleBar.Fullscreen" />
 
+    <style name="BottomSignText">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/text_light</item>
+    </style>
+
 </resources>

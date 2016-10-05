@@ -64,7 +64,7 @@ public class SendMailService extends Service {
         }
         myBDHelper = MyBDHelper.getInstance(this);
         mHandler = new Handler();
-        mHandler.postDelayed(myRunnable1, 50);
+        mHandler.postDelayed(myRunnable1, 500);
 //        mHandler.post(myRunnable1);
         return START_STICKY;
     }

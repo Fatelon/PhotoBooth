@@ -47,7 +47,7 @@ public class HorizontalArrangement extends BaseArrangement {
 
         // Calculate return bitmap height.
         int srcBitmapHeight = srcBitmaps[0].getHeight();
-        int returnBitmapHeight = srcBitmapHeight + PHOTO_STRIP_PANEL_PADDING * 2 + headerHeight;
+        int returnBitmapHeight = srcBitmapHeight + PHOTO_STRIP_PANEL_PADDING * 2 + headerHeight + 70;
 
         returnBitmap = Bitmap.createBitmap(returnBitmapWidth, returnBitmapHeight, ImageHelper.BITMAP_CONFIG);
         if (returnBitmap != null) {

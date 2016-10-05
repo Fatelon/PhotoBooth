@@ -125,4 +125,7 @@
     <!-- My Dialog Activity -->
     <string name="add_mail_title">If you would like to email this picture, enter email now.</string>
 
+    <!-- My Dialog Activity -->
+    <string name="bottom_sign_text">powered by Usie Booth</string>
+    <string name="bottom_sign_text_caps">POWERED BY USIE BOOTH</string>
 </resources>

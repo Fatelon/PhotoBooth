@@ -18,6 +18,7 @@ package com.groundupworks.lib.photobooth.helpers;
 
 import android.os.Environment;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -71,8 +72,10 @@ public class StorageHelper {
 
             // Generate unique hash from bytes.
             MessageDigest digester = MessageDigest.getInstance(DEFAULT_HASH_ALGORITHM);
+            Log.d("KeyHash:", Base64.encodeToString(digester.digest(), Base64.DEFAULT));
             digester.update(bytes, 0, bytes.length);
             digest = digester.digest();
+            Log.d("KeyHash:", Base64.encodeToString(digester.digest(), Base64.DEFAULT));
         } catch (NoSuchAlgorithmException e) {
             // Do nothing.
         } catch (UnsupportedEncodingException e) {

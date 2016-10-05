@@ -48,7 +48,7 @@ public class BoxArrangement extends BaseArrangement {
         // Calculate return bitmap height.
         int srcBitmapHeight = srcBitmaps[0].getHeight();
         int returnBitmapHeight = srcBitmapHeight * boxLength + PHOTO_STRIP_PANEL_PADDING * (boxLength + 1)
-                + headerHeight;
+                + headerHeight + 70;
 
         returnBitmap = Bitmap.createBitmap(returnBitmapWidth, returnBitmapHeight, ImageHelper.BITMAP_CONFIG);
         if (returnBitmap != null) {

@@ -189,13 +189,26 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        final int keyCode = event.getKeyCode();
+        if (keyCode == KeyEvent.KEYCODE_0 ||
+                keyCode == KeyEvent.KEYCODE_1 ||
+                keyCode == KeyEvent.KEYCODE_2 ||
+                keyCode == KeyEvent.KEYCODE_3 ||
+                keyCode == KeyEvent.KEYCODE_4 ||
+                keyCode == KeyEvent.KEYCODE_5 ||
+                keyCode == KeyEvent.KEYCODE_6 ||
+                keyCode == KeyEvent.KEYCODE_7 ||
+                keyCode == KeyEvent.KEYCODE_8 ||
+                keyCode == KeyEvent.KEYCODE_9) {
+
+            return super.dispatchKeyEvent(event);
+        }
         final KeyEventHandler handler = mKeyEventHandler.get();
         if (handler != null) {
             handler.onKeyEvent(event);
         }
-
         // Block event.
-        return true;
+        return false;
     }
 
     //
@@ -343,14 +356,14 @@ public class KioskActivity extends FragmentActivity implements KioskSetupFragmen
     public void onSubmit() {
 
         boolean isEmailEnabled = mPreferencesHelper.getMailEnabled(this);
-            if (isEmailEnabled) {
-                mAddUserMailFragment = AddUserMailFragment.newInstance();
-                replaceTopFragment(mAddUserMailFragment);
-            } else {
-                if (mPhotoStripFragment != null) {
-                    mPhotoStripFragment.submitPhotoStrip();
-                }
+        if (isEmailEnabled) {
+            mAddUserMailFragment = AddUserMailFragment.newInstance();
+            replaceTopFragment(mAddUserMailFragment);
+        } else {
+            if (mPhotoStripFragment != null) {
+                mPhotoStripFragment.submitPhotoStrip();
             }
+        }
     }
 
     //

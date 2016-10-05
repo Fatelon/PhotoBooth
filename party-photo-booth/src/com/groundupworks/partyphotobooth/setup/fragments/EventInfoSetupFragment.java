@@ -131,31 +131,6 @@ public class EventInfoSetupFragment extends Fragment {
         mDateHidden = (CheckBox) view.findViewById(R.id.setup_event_info_date_hidden);
         mNext = (Button) view.findViewById(R.id.setup_event_info_button_next);
 
-        //////////////////////
-
-//        getActivity().startService(new Intent(getActivity(), SendMailService.class));
-
-//        Intent mIntent = new Intent(getActivity(), SendMailService.class);
-//        Bundle extras = new Bundle();
-//        extras.putString("filePath", "/storage/sdcard0/PartyPhotoBooth/ppb1473712376526.jpg");
-//        mIntent.putExtras(extras);
-//        getActivity().startService(mIntent);
-
-        //////////////////////
-
-
-        //Getting content for email
-        String email = "Fatelon@yandex.ru";
-        String subject = "Subject";
-        String message = "22222222";
-
-        //Creating SendMail object
-//        SendMail sm = new SendMail(mContext, email, subject, message, "");
-//        sm.execute();
-//        sm.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        /////////////////////
-
         return view;
     }
 
@@ -217,13 +192,6 @@ public class EventInfoSetupFragment extends Fragment {
                 mDate.setEnabled(!isChecked);
             }
         });
-
-//        mUseMail.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//            }
-//        });
 
         mNext.setOnClickListener(new OnClickListener() {
             @Override

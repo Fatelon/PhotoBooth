@@ -61,12 +61,12 @@ public class ConfirmationFragment extends Fragment {
     /**
      * The short timeout for auto-submission to trigger in milliseconds.
      */
-    private static final long AUTO_SUBMISSION_TIMEOUT_SHORT = 150000L;
+    private static final long AUTO_SUBMISSION_TIMEOUT_SHORT = 15000L;
 
     /**
      * The long timeout for auto-submission to trigger in milliseconds.
      */
-    private static final long AUTO_SUBMISSION_TIMEOUT_LONG = 600000L;
+    private static final long AUTO_SUBMISSION_TIMEOUT_LONG = 60000L;
 
     /**
      * Timer for scheduling auto-submission of photo strip.
@@ -127,9 +127,9 @@ public class ConfirmationFragment extends Fragment {
         mMessage.setVisibility(View.VISIBLE);
 
         // Set submission mode.
-        if (PreferencesHelper.PhotoBoothMode.AUTOMATIC.equals(mode)) {
-            mAutoSubmissionTimeout = AUTO_SUBMISSION_TIMEOUT_SHORT;
-        } else {
+//        if (PreferencesHelper.PhotoBoothMode.AUTOMATIC.equals(mode)) {
+//            mAutoSubmissionTimeout = AUTO_SUBMISSION_TIMEOUT_SHORT;
+//        } else {
             mSubmit.setVisibility(View.VISIBLE);
             mSubmit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -147,7 +147,7 @@ public class ConfirmationFragment extends Fragment {
                     }
                 }
             });
-        }
+//        }
     }
 
     @Override

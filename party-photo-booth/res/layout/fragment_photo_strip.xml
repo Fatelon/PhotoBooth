@@ -77,9 +77,20 @@
                     android:scaleType="fitCenter"
                     android:visibility="gone" />
 
+
+
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/kiosk_spacing" />
+
+                <TextView
+                    android:id="@+id/bottom_sign"
+                    style="@style/BottomSignText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="@string/bottom_sign_text_caps"/>
             </LinearLayout>
 
             <View

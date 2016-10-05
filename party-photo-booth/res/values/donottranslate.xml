@@ -5,8 +5,14 @@
     <string name="image_helper__image_folder_name">PartyPhotoBooth</string>
     <string name="image_helper__image_filename_prefix">ppb</string>
 
-    <!-- Facebook Client Overrides -->
+    <!-- Facebook Client Overrides
+
+    <string name="wings_facebook__app_id">880505718746747</string>
     <string name="wings_facebook__app_id">321386107984400</string>
+    <string name="wings_facebook__client_token">ee85afe559d8038247ec6f8e2b675cec</string>-->
+    <string name="wings_facebook__app_id">321386107984400</string>
+
+
     <string name="wings_facebook__app_album_default_name">Party PhotoBooth Photos</string>
 
     <!-- Dropbox Client Overrides -->

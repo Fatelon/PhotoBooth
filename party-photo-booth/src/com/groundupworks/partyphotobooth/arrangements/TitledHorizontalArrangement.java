@@ -78,6 +78,7 @@ public class TitledHorizontalArrangement extends HorizontalArrangement {
         mDate = date;
         mLogo = logo;
         mFont = font;
+
     }
 
     @Override

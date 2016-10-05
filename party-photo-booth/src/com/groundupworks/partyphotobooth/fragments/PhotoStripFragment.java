@@ -118,6 +118,8 @@ public class PhotoStripFragment extends ControllerBackedFragment<PhotoStripContr
 
     private ImageView mEventLogo;
 
+    private TextView mBottomSign;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -139,6 +141,7 @@ public class PhotoStripFragment extends ControllerBackedFragment<PhotoStripContr
         mEventLineTwo = (TextView) view.findViewById(R.id.event_line_two);
         mEventDate = (TextView) view.findViewById(R.id.event_date);
         mEventLogo = (ImageView) view.findViewById(R.id.event_logo);
+        mBottomSign = (TextView) view.findViewById(R.id.bottom_sign);
 
         return view;
     }
@@ -419,10 +422,13 @@ public class PhotoStripFragment extends ControllerBackedFragment<PhotoStripContr
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(photoSize, photoSize);
         layoutParams.setMargins(0, 0, 0, photoPadding);
 
+        int childCount = mContainer.getChildCount();
+
         // Add view to hierarchy and start animation.
-        mContainer.addView(frame, layoutParams);
+        mContainer.addView(frame, childCount - 2, layoutParams);
         mScroller.fullScroll(ScrollView.FOCUS_DOWN);
         mShadower.startAnimation(getTranslateAnimation((float) offset, isPhotoStripComplete));
+        mBottomSign.setVisibility(View.VISIBLE);
     }
 
     /**

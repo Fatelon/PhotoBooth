@@ -22,12 +22,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.SparseArray;
 
+import com.groundupworks.lib.photobooth.arrangements.BaseArrangement;
 import com.groundupworks.lib.photobooth.framework.BaseController;
 import com.groundupworks.lib.photobooth.helpers.ImageHelper;
 import com.groundupworks.lib.photobooth.helpers.ImageHelper.Arrangement;
@@ -318,6 +323,12 @@ public class PhotoStripController extends BaseController {
         }
         Bitmap photoStrip = ImageHelper.createPhotoStrip(bitmaps, arrangement);
 
+        /////////////////
+
+        photoStrip = addBottomSign("POWERED BY USIE BOOTH", photoStrip, mTheme.getFont());
+
+        /////////////////
+
         // Reset frame management params.
         mFramesList.clear();
         mFramesMap.clear();
@@ -345,18 +356,22 @@ public class PhotoStripController extends BaseController {
 
                 ///// Attention!!!!! shit code!
                 try {
-                    context.stopService(new Intent(context, SendMailService.class));
-                    MailObject mailObject = new MailObject();
-                    mailObject.setHostAddress(mPreferencesHelper.getMailSettingsEmail(context));
-                    mailObject.setHostPassword(mPreferencesHelper.getMailPasswordSettingsEmail(context));
-                    mailObject.setUserAddress(mPreferencesHelper.getUserMail(context));
-                    mailObject.setFilePath(file.getPath());
-                    mailObject.setSubject(mPreferencesHelper.getMailSettingsSubject(context));
-                    mailObject.setMessage(mPreferencesHelper.getMailSettingsMessage(context));
+                    boolean isEmailEnabled = mPreferencesHelper.getMailEnabled(context);
+                    if (isEmailEnabled) {
+                        context.stopService(new Intent(context, SendMailService.class));
+                        MailObject mailObject = new MailObject();
+                        mailObject.setHostAddress(mPreferencesHelper.getMailSettingsEmail(context));
+                        mailObject.setHostPassword(mPreferencesHelper.getMailPasswordSettingsEmail(context));
+                        mailObject.setUserAddress(mPreferencesHelper.getUserMail(context));
+                        mailObject.setFilePath(file.getPath());
+                        mailObject.setSubject(mPreferencesHelper.getMailSettingsSubject(context));
+                        mailObject.setMessage(mPreferencesHelper.getMailSettingsMessage(context));
 
-                    MyBDHelper myBDHelper = MyBDHelper.getInstance(context);
-                    myBDHelper.addMailObject(mailObject);
-                    context.startService(new Intent(context, SendMailService.class));
+                        MyBDHelper myBDHelper = MyBDHelper.getInstance(context);
+                        myBDHelper.addMailObject(mailObject);
+                        context.startService(new Intent(context, SendMailService.class));
+                    }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -417,6 +432,30 @@ public class PhotoStripController extends BaseController {
             photoStrip.recycle();
             photoStrip = null;
         }
+    }
+
+    public static Bitmap addBottomSign(String bottomSignTextLine, Bitmap mainBitmap, Typeface font){
+        Bitmap returnBitmap = null;
+        int returnBitmapWidth = mainBitmap.getWidth();
+        int returnBitmapHeight = mainBitmap.getHeight();
+        returnBitmap = Bitmap.createBitmap(returnBitmapWidth, returnBitmapHeight, ImageHelper.BITMAP_CONFIG);
+        if (returnBitmap != null) {
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setTypeface(font);
+            paint.setShadowLayer(0f, 0f, 0f, Color.WHITE);
+            paint.setColor(Color.GRAY);
+            float optimalTextSize = TextHelper.getFittedTextSize(bottomSignTextLine, returnBitmapWidth, 50, paint);
+//            optimalTextSize *= 2 / 3;
+            paint.setTextSize(optimalTextSize);
+            Canvas canvas = new Canvas(returnBitmap);
+            canvas.drawColor(Color.WHITE);
+            canvas.drawBitmap(mainBitmap, 0, 0, null);
+
+            canvas.drawText(bottomSignTextLine, returnBitmapWidth / 2, mainBitmap.getHeight() - 50, paint);
+        }
+
+        return returnBitmap;
     }
 
     /**

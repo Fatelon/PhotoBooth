@@ -34,7 +34,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.groundupworks.lib.photobooth.framework.BaseApplication;
@@ -107,6 +109,8 @@ public class CaptureFragment extends Fragment {
      */
     private int mPreviewDisplayOrientation = CameraHelper.CAMERA_SCREEN_ORIENTATION_0;
 
+    private PhotoBoothMode mPhotoBoothMode = PhotoBoothMode.SELF_SERVE;
+
     //
     // Views.
     //
@@ -114,6 +118,7 @@ public class CaptureFragment extends Fragment {
     private CenteredPreview mPreview;
 
     private Button mStartButton;
+    private Button mStartButtonLong;
 
     private TextView mFrameCount;
 
@@ -134,8 +139,12 @@ public class CaptureFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_capture, container, false);
 
         mPreview = (CenteredPreview) view.findViewById(R.id.camera_preview);
+
         mStartButton = (Button) view.findViewById(R.id.capture_button);
         mFrameCount = (TextView) view.findViewById(R.id.frame_count);
+
+        mStartButtonLong = (Button) view.findViewById(R.id.capture_button_long);
+        mStartButtonLong.setVisibility(View.GONE);
 
         return view;
     }
@@ -155,10 +164,10 @@ public class CaptureFragment extends Fragment {
          */
         // Get from preference.
         PreferencesHelper preferencesHelper = new PreferencesHelper();
-        PhotoBoothMode mode = preferencesHelper.getPhotoBoothMode(appContext);
+        mPhotoBoothMode = preferencesHelper.getPhotoBoothMode(appContext);
 
         int cameraPreference = CameraInfo.CAMERA_FACING_FRONT;
-        if (PhotoBoothMode.PHOTOGRAPHER.equals(mode)) {
+        if (PhotoBoothMode.PHOTOGRAPHER.equals(mPhotoBoothMode)) {
             cameraPreference = CameraInfo.CAMERA_FACING_BACK;
         }
 
@@ -200,7 +209,7 @@ public class CaptureFragment extends Fragment {
          * Functionalize views.
          */
         // Configure start button and trigger behaviour.
-        switch (mode) {
+        switch (mPhotoBoothMode) {
             case PHOTOGRAPHER:
                 mStartButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -218,6 +227,9 @@ public class CaptureFragment extends Fragment {
                 linkStartButton();
                 break;
             case AUTOMATIC:
+                mStartButtonLong.setVisibility(View.VISIBLE);
+                mStartButton.setVisibility(View.GONE);
+                mStartButton = mStartButtonLong;
                 if (currentFrame > 1) {
                     // Auto-trigger when camera is ready and preview has started.
                     mPreview.setOnPreviewListener(new CenteredPreview.OnPreviewListener() {
@@ -519,9 +531,12 @@ public class CaptureFragment extends Fragment {
     private void initiateCountdownCapture() {
         if (mCamera != null) {
             mStartButton.setEnabled(false);
-
             // Start auto-focus.
             mCamera.autoFocus(null);
+
+            if (PhotoBoothMode.AUTOMATIC.equals(mPhotoBoothMode)) {
+//                mStartButton.set
+            }
 
             // Start animation. Take picture when count down animation completes.
             final AnimationDrawable countdownAnimation = (AnimationDrawable) mStartButton.getBackground();

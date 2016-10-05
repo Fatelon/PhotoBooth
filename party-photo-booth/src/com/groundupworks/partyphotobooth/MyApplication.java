@@ -17,11 +17,21 @@
 package com.groundupworks.partyphotobooth;
 
 import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Handler;
+import android.util.Base64;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.groundupworks.lib.photobooth.framework.BaseApplication;
+import com.groundupworks.partyphotobooth.helpers.PreferencesHelper;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**

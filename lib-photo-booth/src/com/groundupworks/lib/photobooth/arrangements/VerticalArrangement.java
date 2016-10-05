@@ -47,7 +47,7 @@ public class VerticalArrangement extends BaseArrangement {
         // Calculate return bitmap height.
         int srcBitmapHeight = srcBitmaps[0].getHeight();
         int returnBitmapHeight = srcBitmapHeight * srcBitmaps.length + PHOTO_STRIP_PANEL_PADDING
-                * (srcBitmaps.length + 1) + headerHeight;
+                * (srcBitmaps.length + 1) + headerHeight + 100;
 
         returnBitmap = Bitmap.createBitmap(returnBitmapWidth, returnBitmapHeight, ImageHelper.BITMAP_CONFIG);
         if (returnBitmap != null) {
@@ -76,6 +76,8 @@ public class VerticalArrangement extends BaseArrangement {
 
                 i++;
             }
+
+
 
             // Draw photo strip borders.
             drawPhotoStripBorders(canvas, 0, 0, returnBitmapWidth - 1, returnBitmapHeight - 1);

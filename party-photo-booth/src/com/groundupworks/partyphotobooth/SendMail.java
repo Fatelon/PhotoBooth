@@ -2,6 +2,7 @@ package com.groundupworks.partyphotobooth;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -62,13 +63,25 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         //Creating properties
         Properties props = new Properties();
 
-        //Configuring properties for gmail
-        //If you are not using gmail you may need to change the values
+
+        props.put("mail.smtp.user", mailObject.getHostAddress());
         props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.starttls.enable","true");
+        props.put("mail.smtp.debug", "true");
+        props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.socketFactory.fallback", "false");
+
+
+        //Configuring properties for gmail
+        //If you are not using gmail you may need to change the values
+//        props.put("mail.smtp.host", "smtp.gmail.com");
+//        props.put("mail.smtp.socketFactory.port", "465");
+//        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.port", "465");
 
         //Creating a new session
         session = Session.getDefaultInstance(props,
@@ -89,7 +102,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
             //Adding subject
             mm.setSubject(mailObject.getSubject());
             //Adding message
-            mm.setText(mailObject.getMessage());
+//            mm.setText(mailObject.getMessage());
             //Adding fileName
             try {
                 MimeMultipart multipart = new MimeMultipart("related");
@@ -101,14 +114,13 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
 
                 // second part (the image)
                 messageBodyPart = new MimeBodyPart();
-                DataSource fds = new FileDataSource(mailObject.getFilePath());
-
-                messageBodyPart.setDataHandler(new DataHandler(fds));
+                if (!mailObject.getFilePath().equals("")) {
+                    DataSource fds = new FileDataSource(mailObject.getFilePath());
+                    messageBodyPart.setDataHandler(new DataHandler(fds));
+                }
                 messageBodyPart.setHeader("Content-ID", "<image>");
-
                 // add image to the multipart
                 multipart.addBodyPart(messageBodyPart);
-
                 // put everything together
                 mm.setContent(multipart);
             } catch (Exception e) {
@@ -127,6 +139,8 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
                     && e.toString().contains("Could not connect to SMTP host")) {
                 MyBDHelper myBDHelper = MyBDHelper.getInstance(context);
                 myBDHelper.addMailObject(mailObject);
+                context.stopService(new Intent(context, SendMailService.class));
+                context.startService(new Intent(context, SendMailService.class));
                 Log.i("sendObject", "Could not connect to SMTP host");
             }
             e.printStackTrace();
